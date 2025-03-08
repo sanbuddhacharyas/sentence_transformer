@@ -14,4 +14,4 @@ def load_huggingFace_dataset(dataset_name:str, dataset_type='pair'):
 if __name__ == '__main__':
     dataset_name = 'sentence-transformers/all-nli'
     train_dataset, test_dataset = load_huggingFace_dataset(dataset_name)
-    print(train_dataset[0])
+    

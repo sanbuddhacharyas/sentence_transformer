@@ -3,13 +3,15 @@ project:
     version: 1.0
     
 training:
-    batch_size: 4
-    epochs: 50
-    learning_rate: 0.0001
+    batch_size: 32
+    epochs: 20
+    learning_rate: 0.000001
 
 model:
-    backbone_model_name: "prajjwal1/bert-medium"
+    backbone_model_name: "google-bert/bert-base-uncased"
     pooling_method : "mean"
+    save_model: "weights/sentence_transformer_3.pth"
+    output_embedding: 512
 
 data:
     dataset_path: "sentence-transformers/all-nli"

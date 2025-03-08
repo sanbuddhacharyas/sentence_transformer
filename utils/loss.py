@@ -21,11 +21,13 @@ class ContrastiveLoss(nn.Module):
 class CustomMultipleNegativesRankingLoss(nn.Module):
     def __init__(self, 
                  model, 
+                 device,
                  scale: float = 20.0) -> None:
         
         super().__init__()
-        self.model = model
-        self.scale = scale
+        self.model  = model.to(device)
+        self.scale  = scale
+        self.device = device
         self.find_similarity     = nn.CosineSimilarity(dim=1, eps=1e-6)
         self.cross_entropy_loss  = nn.CrossEntropyLoss()
 
