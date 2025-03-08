@@ -18,7 +18,7 @@ class ContrastiveLoss(nn.Module):
         return loss.mean()
 
 
-class MultipleNegativesRankingLoss(nn.Module):
+class CustomMultipleNegativesRankingLoss(nn.Module):
     def __init__(self, 
                  model, 
                  scale: float = 20.0) -> None:

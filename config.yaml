@@ -1,3 +1,7 @@
+project: 
+    name: sentence_transformer
+    version: 1.0
+    
 training:
     batch_size: 4
     epochs: 50
