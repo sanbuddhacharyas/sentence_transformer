@@ -1,0 +1,11 @@
+training:
+    batch_size: 4
+    epochs: 50
+    learning_rate: 0.0001
+
+model:
+    backbone_model_name: "prajjwal1/bert-medium"
+    pooling_method : "mean"
+
+data:
+    dataset_path: "sentence-transformers/all-nli"
