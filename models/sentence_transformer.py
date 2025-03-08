@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from transformer import AutoModel, AutoTokenizer
+from transformers import AutoModel, AutoTokenizer
 
 # This class takes a transformer model as backbone and implement an end to end sentence transformer.
 class CustomSentenceTransformer(nn.Module):
@@ -19,11 +19,11 @@ class CustomSentenceTransformer(nn.Module):
         """
             This function computes mean pooling from the encoder_embeddings.
         """
-        attention_mask       = attention_mask.unsqueeze(-1).expand(self.tokenizer.size()).float()  # Expand the attention mask to match the shape of encoder embeddings
-        embeddings_sum       = torch.sum(encoder_embeddings * attention_mask, 1)                   # Sum the embeddings of valid tokens
-        count_valid_tokens   = attention_mask.sum(1)                                               # Count total valid tokens per sentence
-        count_valid_tokens   = torch.clamp(count_valid_tokens, 1e-10)                              # Add small number to prevent from zero division
-        embeddings_mean      = torch.div(embeddings_sum, count_valid_tokens)                       # Calculates the mean of the embeddings
+        attention_mask       = attention_mask.unsqueeze(-1).expand(encoder_embeddings.size()).float()  # Expand the attention mask to match the shape of encoder embeddings
+        embeddings_sum       = torch.sum(encoder_embeddings * attention_mask, 1)                       # Sum the embeddings of valid tokens
+        count_valid_tokens   = attention_mask.sum(1)                                                   # Count total valid tokens per sentence
+        count_valid_tokens   = torch.clamp(count_valid_tokens, 1e-10)                                  # Add small number to prevent from zero division
+        embeddings_mean      = torch.div(embeddings_sum, count_valid_tokens)                           # Calculates the mean of the embeddings
 
         return embeddings_mean
     
@@ -36,5 +36,6 @@ class CustomSentenceTransformer(nn.Module):
         sentence_embedded    = self.mean_pooling_layer(encoder_embeddings, encoded_inputs["attention_mask"])
 
         return sentence_embedded
+
 
 
