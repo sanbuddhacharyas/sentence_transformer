@@ -1,8 +1,9 @@
 import torch
-import Tensor
 import torch.nn as nn
 import numpy as np
 import torch.nn.functional as F
+
+from torch import Tensor
 from typing import Any
 from collections.abc import Iterable
 
@@ -45,11 +46,10 @@ class MultipleNegativesRankingLoss(nn.Module):
         return torch.mm(a_norm, b_norm.transpose(0, 1))
 
     def forward(self, 
-                sentence_features: Iterable[dict[str, torch.Tensor]], 
-                labels: torch.Tensor) -> torch.Tensor:
+                sentence_features: Iterable[dict[str, torch.Tensor]]) -> torch.Tensor:
         
         # Compute the embeddings and distribute them to anchor and candidates (positive and optionally negatives)
-        embeddings = [self.model(sentence_features['sentence_feature']) for sentence_feature in sentence_features]
+        embeddings = [self.model(sentence_features[sentence_feature]) for sentence_feature in sentence_features]
         anchors    = embeddings[0]              # (batch_size, embedding_dim)
         candidates = torch.cat(embeddings[1:])  # (batch_size * (1 + num_negatives), embedding_dim)
 
