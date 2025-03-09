@@ -9,7 +9,8 @@ class CustomSentenceTransformer(nn.Module):
                  backbone_model:str,
                  output_dim:int=512,
                  pooling_method:str='mean',
-                 device = 'cpu') -> None:
+                 device = 'cpu',
+                 output_encoder_embedding:bool=False) -> None:
         super(CustomSentenceTransformer, self).__init__()
         self.backbone_transformer_encoder = AutoModel.from_pretrained(backbone_model)        # Load the pretrained transformer model from the hugging face
         self.tokenizer                    = AutoTokenizer.from_pretrained(backbone_model)    # Load the tokenizer for transformer model
@@ -18,6 +19,7 @@ class CustomSentenceTransformer(nn.Module):
         self.output_dim                   = output_dim
         self.fc                           = nn.Linear(768,  self.output_dim )                # BERT-base has 768 hidden size
         self.activation                   = nn.GELU()                                        # Activation function
+        self.output_encoder_embedding     = output_encoder_embedding
         
 
     def mean_pooling_layer(self, 
@@ -36,10 +38,14 @@ class CustomSentenceTransformer(nn.Module):
     
     def forward(self, input_text):
 
-        encoded_inputs       = self.tokenizer(input_text, padding=True, return_tensors="pt")     # Encode the input text
+        encoded_inputs       = self.tokenizer(input_text, padding=True, return_tensors="pt")           # Encode the input text
         encoded_inputs       = {key: val.to(self.device) for key, val in encoded_inputs.items()}
-        encoder_embeddings   = self.backbone_transformer_encoder(**encoded_inputs).last_hidden_state              # Shape: [batch_size, sequence_length, hidden_dim]
+        encoder_embeddings   = self.backbone_transformer_encoder(**encoded_inputs).last_hidden_state   # Shape: [batch_size, sequence_length, hidden_dim]
 
+        # Output transformer embedding output for each tokens 
+        if self.output_encoder_embedding: 
+            return encoder_embeddings            # Shape: [batch_size, sequence_length, hidden_dim]
+        
         # Apply mean pool  
         sentence_embedded    = self.mean_pooling_layer(encoder_embeddings, encoded_inputs["attention_mask"])
 
