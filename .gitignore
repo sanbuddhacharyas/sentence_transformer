@@ -1,0 +1,5 @@
+*.pth
+*.jpg
+*.txt
+wandb/*
+weights/*
