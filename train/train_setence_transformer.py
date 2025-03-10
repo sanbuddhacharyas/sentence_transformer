@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '../')
+
 import wandb
 import torch
 import os
@@ -16,7 +19,7 @@ if __name__=='__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load all the hyperparametes and configuration
-    config = load_config()
+    config = load_config('../config.yaml')
 
     # Create a wandb to log
     wandb.init(project=config["project"]["name"], name=f"Version_{config['project']['version']}")
@@ -51,13 +54,8 @@ if __name__=='__main__':
     # Use GPU
     sentence_transformer = sentence_transformer.to(device)
 
-    # Load pretrained dataset:
-    if os.path.isfile(config["model"]["save_model"]):
-        sentence_transformer.load_state_dict(torch.load(config["model"]["save_model"]))
-        print("Model Loaded: ", config["model"]["save_model"])
 
     for epoch in range(epochs):
-        epoch += 3
         sentence_transformer.train()
         total_loss = 0.0
 

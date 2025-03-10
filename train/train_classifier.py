@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '../')
+
 import wandb
 import torch
 import os
@@ -15,7 +18,7 @@ if __name__=='__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Load all the hyperparametes and configuration
-    config = load_config()
+    config = load_config(config_path='../config.yaml')
 
     # Create a wandb to log
     wandb.init(project="SentenceClassification", name=f"Version_{config['project']['version']}")
@@ -33,7 +36,7 @@ if __name__=='__main__':
                                                      n_classes=config["training"]["n_classes"], 
                                                      embedding_size=config["model"]["output_embedding"], 
                                                      pooling_method=config["model"]["pooling_method"], 
-                                                     encoder_pretrained=config["model"]["save_model"],
+                                                     encoder_pretrained=config["model"]["sentence_transformer_pretrained"],
                                                      device=device)
     # Set Optimizer to traing the model
     optimizer                   = optim.AdamW(sentence_classifier.parameters(), lr=learning_rate)
