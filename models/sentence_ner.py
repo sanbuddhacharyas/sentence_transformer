@@ -20,7 +20,8 @@ class NER(nn.Module):
                                                               embedding_size, 
                                                               pooling_method, 
                                                               device, 
-                                                              output_encoder_embedding=True) # output_encoder_embedding=False output the intermediate token level embeddings
+                                                              output_encoder_embedding=True,
+                                                              use_tokenizer=False) # output_encoder_embedding=False output the intermediate token level embeddings
         
         # Required a transformer hidden size
         self.linear               = nn.Linear(self.sentence_transformer.backbone_transformer_encoder.config.hidden_size,   

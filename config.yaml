@@ -1,20 +1,21 @@
 project: 
-    name: sentence_transformer
+    name: sentence_transformer1
     version: 1.0
     
 training:
     batch_size: 32
     epochs: 20
-    learning_rate: 0.000001
-    n_classes: 4
+    learning_rate: 0.00001
+    n_classes: 9
 
 model:
     backbone_model_name: "google-bert/bert-base-uncased"
     pooling_method : "mean"
-    save_model: "weights/sentence_transformer_3.pth"
+    sentence_transformer_pretrained: "weights/sentence_transformer_3.pth"
     save_model_classifier: "save_model_classifier"
     output_embedding: 512
 
 data:
     dataset_path: "sentence-transformers/all-nli"
     classification_dataset_path: 'fancyzhx/ag_news'
+    ner_dataset_path: 'eriktks/conll2003'
