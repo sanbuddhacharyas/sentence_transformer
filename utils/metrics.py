@@ -45,3 +45,18 @@ def recall(y_true, y_pred, average='binary'):
             recall_scores.append(tp / (tp + fn) if (tp + fn) > 0 else 0.0)
 
         return np.mean(recall_scores) if average == 'macro' else np.sum(np.array(recall_scores) * (np.bincount(y_true) / len(y_true)))
+
+def F1_Score(precision:float, recall:float):
+    """This function caclulates f1-score from precision and recall
+    """
+    return (2 * precision * recall) / (precision + recall)
+
+def calculate_all_metrics(y_truth:np.array, y_pred:np.array):
+    """This function calcualtes all the classification score and print them
+    """
+    precision_score = precision(y_truth, y_pred, 'macro')
+    recall_score    = recall(y_truth, y_pred, 'macro')
+    print(f"Accuracy: {accuracy(y_truth, y_pred)}")
+    print(f"Precision: {precision_score}")
+    print(f"Recall: {recall_score}")
+    print(f"F1: {F1_Score(recall_score, y_pred)}")

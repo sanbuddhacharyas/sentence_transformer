@@ -7,7 +7,7 @@ This repository contains code to train, test and predict the sentence transforme
 - Python 3.10 or later
 - Anaconda or Miniconda (optional, can use a python virtualenv instead)
 
-## Installatioon
+## Installation
 ### 1. Create a conda environment
 ```
 conda create -n sentenceTransformer python=3.10
@@ -157,4 +157,24 @@ data:
 cd train
 conda activate sentenceTransformer
 python train train_classifier.py
+```
+
+# Evaluate Performace Metrics
+Performace metrics can be evaluated with `test.py` python script
+Pass the following arguments
+
+```
+python test.py --model_name <Model Name NER or classifier> --pretrained_path <path to model saved weights> --n_classes <Number of clases to predict> --batch_size <batch size to load dataset>
+```
+Example:
+ 
+**Name Entity Recognition:**
+```
+
+python test.py --model_name 'NER' --pretrained_path 'weights/sentence_classifier_19.pth' --n_classes 9 --batch_size 32
+```
+
+**Sentence Classifier:**
+```
+python test.py --model_name 'NER' --pretrained_path 'weights/sentence_classifier_8.pth' --n_classes 4 --batch_size 32
 ```
