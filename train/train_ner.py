@@ -64,7 +64,7 @@ if __name__=='__main__':
     ner_model = ner_model.to(device)
 
     # Load pretrained dataset:
-    if os.path.isfile(config["model"]["save_model_classifier"]):
+    if os.path.isfile(config["model"]["save_model_NER"]):
         ner_model.load_state_dict(torch.load(config["model"]["save_model"]))
         print("Model Loaded: ", config["model"]["save_model"])
 
@@ -107,4 +107,4 @@ if __name__=='__main__':
                 print(f"train_loss: {total_loss/(batch_ind+1)}, epoch: {epoch}, iteration: {iteration}")
             
         # Save the model after epoch 
-        torch.save(ner_model.state_dict(), f'weights/sentence_classifier_{epoch}.pth')
+        torch.save(ner_model.state_dict(), f'../weights/NER_{epoch}.pth')

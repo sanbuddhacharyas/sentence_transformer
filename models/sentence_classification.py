@@ -23,6 +23,7 @@ class SentenceClassifier(nn.Module):
         self.encoder_pretrained = encoder_pretrained
 
         # load pre-trained model of encoder
+        print(self.encoder_pretrained)
         if os.path.isfile(self.encoder_pretrained):
             self.encoder.load_state_dict(torch.load(self.encoder_pretrained))
             print("Encoder Weight Loaded: ", self.encoder_pretrained)
