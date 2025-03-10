@@ -59,8 +59,8 @@ if __name__=='__main__':
 
     # Load pretrained dataset:
     if os.path.isfile(config["model"]["save_model_classifier"]):
-        sentence_classifier.load_state_dict(torch.load(config["model"]["save_model"]))
-        print("Model Loaded: ", config["model"]["save_model"])
+        sentence_classifier.load_state_dict(torch.load(config["model"]["save_model_classifier"]))
+        print("Model Loaded: ", config["model"]["save_model_classifier"])
 
     iteration = 0
     for epoch in range(epochs):
@@ -97,4 +97,4 @@ if __name__=='__main__':
                 print(f"train_loss: {total_loss/(batch_ind+1)}, epoch: {epoch}, iteration: {iteration}")
             
         # Save the model after epoch 
-        torch.save(sentence_classifier.state_dict(), f'weights/sentence_classifier_{epoch}.pth')
+        torch.save(sentence_classifier.state_dict(), f'../weights/sentence_classifier_{epoch}.pth')
