@@ -22,25 +22,32 @@ class SentenceClassifier(nn.Module):
         self.softmax            = nn.Softmax()
         self.encoder_pretrained = encoder_pretrained
 
-    def classifier(self, sentence_embedded: Tensor):
-        
-        x      = self.linear1(sentence_embedded)
-        x      = self.activation(x)
-        x      = self.linear2(x)
-        x      = self.activation(x)
-        x      = self.output(x)
-        output = self.softmax(x)
-
-        return output
-    
-    def forward(self, input_text:List[str]):
+        # load pre-trained model of encoder
         if os.path.isfile(self.encoder_pretrained):
             self.encoder.load_state_dict(torch.load(self.encoder_pretrained))
             print("Encoder Weight Loaded: ", self.encoder_pretrained)
 
-        encoder_output = self.encoder(input_text)
+    def classifier(self, sentence_embedded: Tensor):
+        """
+        Constructs a classification head for sentence embeddings using linear layers and activation functions.
         
+        Args:
+            sentence_embedded (Tensor): Input tensor containing sentence embeddings.
+        
+        Returns:
+            Tensor: Probability distribution over output classes after applying softmax.
+        """
+        x = self.linear1(sentence_embedded)  # First linear transformation
+        x = self.activation(x)               # Apply GELU activation
+        x = self.linear2(x)                  # Second linear transformation
+        x = self.activation(x)               # Apply GELU activation
+        x = self.output(x)                   # Project to output class logits
+        output = self.softmax(x)             # Convert logits to probabilities
 
+        return output
+    
+    def forward(self, input_text:List[str]):
+        encoder_output = self.encoder(input_text)
         classes_output = self.classifier(encoder_output)
 
         return classes_output

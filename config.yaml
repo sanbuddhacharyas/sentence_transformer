@@ -12,7 +12,7 @@ model:
     backbone_model_name: "google-bert/bert-base-uncased"
     pooling_method : "mean"
     sentence_transformer_pretrained: "weights/sentence_transformer_3.pth"
-    save_model_classifier: "save_model_classifier"
+    save_model_classifier: "weights/sentence_classifier_19.pth"
     output_embedding: 512
 
 data:
