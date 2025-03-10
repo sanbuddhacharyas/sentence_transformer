@@ -59,4 +59,4 @@ def calculate_all_metrics(y_truth:np.array, y_pred:np.array):
     print(f"Accuracy: {accuracy(y_truth, y_pred)}")
     print(f"Precision: {precision_score}")
     print(f"Recall: {recall_score}")
-    print(f"F1: {F1_Score(recall_score, y_pred)}")
+    print(f"F1: {F1_Score(precision_score, recall_score)}")
