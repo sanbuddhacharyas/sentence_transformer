@@ -11,7 +11,6 @@ from utils.dataloader import load_huggingFace_dataset
 from utils.loss import CustomMultipleNegativesRankingLoss
 
 
-
 if __name__=='__main__':
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -38,7 +37,7 @@ if __name__=='__main__':
     optimizer                   = optim.AdamW(sentence_transformer.parameters(),lr=learning_rate)
 
     # Load dataset
-    train_dataset, test_dataset = load_huggingFace_dataset(dataset_name)
+    train_dataset, test_dataset = load_huggingFace_dataset(dataset_name, dataset_type='sentence_transformer')
     dataloader_train            = DataLoader(train_dataset, batch_size=batch_size, shuffle=True,  num_workers=0)
     dataloader_test             = DataLoader(test_dataset,  batch_size=batch_size, shuffle=False, num_workers=0)
 
@@ -54,7 +53,6 @@ if __name__=='__main__':
 
     # Load pretrained dataset:
     if os.path.isfile(config["model"]["save_model"]):
-        
         sentence_transformer.load_state_dict(torch.load(config["model"]["save_model"]))
         print("Model Loaded: ", config["model"]["save_model"])
 
