@@ -19,13 +19,29 @@ conda activate sentenceTransformer
 pip install -r requirements.txt
 ```
 ## Docker Installation
-Download docker from docker hub
+Download docker from docker hub. It contains the code and pre-trained weights of sentence transformer model.
+
+**There is no need to download the weights or configure parameters.**
 ```
-docker push sangamman/fetch-sentence-transformer:latest
+docker pull sangamman/fetch-sentence-transformer:latest
 ```
+OR build from docker file
 ```
 docker build -t sentence-transformer .
 ```
+
+# Predict Sentence Embedding:
+Create a folder name `weight` and download the pre-trained sentence transformer model.
+```https://drive.google.com/file/d/1MYjFvMCfXl-GMzpMdNEhWVGTHI4UWbPh/view?usp=sharing```
+
+Use python script`predict.py` to outputs sentence embedding of two input sentence and calculates cosine similarity.
+
+```python predict.py --model_name 'embedding' --pretrained_path '<path to sentence embedding trained weight>' --input "['sentence-1', 'sentence-2']" ```
+
+For Example:
+
+```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['A person on a horse jumps over a broken down airplane.', 'There are women showing affection.']"```
+
 
 ## Configuration
 Configure hyperparameters and paths in `config.yaml`.
@@ -58,13 +74,6 @@ Configure hyperparameters and paths in `config.yaml`.
 # Dummy Dataset
 `dataloader/classification_dataloader.py and dataloader/ner_dataloader.py` contains dummy dataset loader that generates random tokenized data and respecitve labels
 
-# Predict Sentence Embedding:
-Python script: `predict.py` outputs sentence embedding of two input sentence and calculates cosine similarity.
-
-```python predict.py --model_name 'embedding' --pretrained_path '<path to sentence embedding trained weight>' --input "['sentence-1', 'sentence-2']" ```
-
-For Example:
-```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['A person on a horse jumps over a broken down airplane.', 'There are women showing affection.']"```
 
 # Model Training 
 There is two training code one to train the `sentence tranformer` and another to train the `Multi task learning` model.
