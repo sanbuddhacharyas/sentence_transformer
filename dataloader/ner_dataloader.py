@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader, Dataset
 import torch
 def DataLoaderNER(config):
      # Load datasets
-    train_dataset, test_dataset  =  dummyNERGenerator(data_size=2000, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_ner']), \
+    train_dataset, test_dataset  =  dummyNERGenerator(data_size=512, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_ner']), \
                                     dummyNERGenerator(data_size=128,  seq_len=config['model']['max_token_size'],  num_classes=config['model']['n_classes_ner'])
     
     dataloader_train             = DataLoader(train_dataset, batch_size=config['training']['batch_size'], shuffle=True,  num_workers=0)
@@ -42,7 +42,7 @@ class dummyNERGenerator(Dataset):
     def __getitem__(self, idx):
         return {"input_ids": self.data[idx],
             "attention_mask": self.masks[idx],
-            "labels":self.labels[idx]}, 
+            "labels":self.labels[idx]}
     
 
 """Future Use
