@@ -18,7 +18,7 @@ model:
     sentence_embedding_size: 512
     n_classes_cls: 4
     max_token_size: 128
-     n_classes_ner: 9
+    n_classes_ner: 9
     dropout_ner: 0.3
 
 data:
@@ -29,6 +29,3 @@ data:
         ind2class: {0: 'O', 1: 'B-PER', 2: 'I-PER', 3: 'B-ORG', 4: 'I-ORG', 5: 'B-LOC', 6: 'I-LOC', 7: 'B-MISC', 8: 'I-MISC'}
     ag_news:
         ind2class: {0: 'World', 1: 'Sports', 2: 'Business', 3: 'Sci/Tech'}
-
-predict:
-    
