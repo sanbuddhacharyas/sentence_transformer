@@ -20,14 +20,13 @@ class NER(nn.Module):
                                                               embedding_size, 
                                                               pooling_method, 
                                                               device, 
-                                                              output_encoder_embedding=True,
-                                                              use_tokenizer=False) # output_encoder_embedding=False output the intermediate token level embeddings
+                                                              output_encoder_embedding=True, # output_encoder_embedding=False output the intermediate token level embeddings
+                                                              use_tokenizer=False) 
         
         # Required a transformer hidden size
-        self.linear               = nn.Linear(self.sentence_transformer.backbone_transformer_encoder.config.hidden_size,   
-                                              n_classes)   # Input [transformer_hidden_size(768), seq_len]
-        self.dropout              = nn.Dropout(0.3)
-        self.st_pretrained        = encoder_pretrained
+        self.linear               = nn.Linear(self.sentence_transformer.backbone_transformer_encoder.config.hidden_size, n_classes)   # Input [transformer_hidden_size(768), seq_len]
+        self.dropout              = nn.Dropout(0.3)        # Use Dropout for Regularization
+        self.st_pretrained        = encoder_pretrained     # Sentence tranformer pretrained path
         self.tokenizer            = self.sentence_transformer.tokenizer
 
         # load pre-trained model of encoder
@@ -45,7 +44,7 @@ class NER(nn.Module):
         return x
     
     def forward(self, input_text:List[str]):
-        encoder_output = self.sentence_transformer(input_text)
-        classes_output = self.ner_head(encoder_output)
+        encoder_output = self.sentence_transformer(input_text)  # Output Token level embedding
+        classes_output = self.ner_head(encoder_output)          # NER head outputs classes per token
 
         return classes_output
