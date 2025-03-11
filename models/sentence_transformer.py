@@ -6,23 +6,16 @@ from transformers import AutoModel, AutoTokenizer
 class CustomSentenceTransformer(nn.Module):
     
     def __init__(self, 
-                 backbone_model:str,
-                 output_dim:int=512,
-                 pooling_method:str='mean',
-                 device = 'cpu',
-                 output_encoder_embedding:bool=False,
-                 use_tokenizer:bool=True) -> None:
+                 config) -> None:
         super(CustomSentenceTransformer, self).__init__()
-        self.backbone_transformer_encoder = AutoModel.from_pretrained(backbone_model)      # Load the pretrained transformer model from the hugging face
-        self.tokenizer                    = AutoTokenizer.from_pretrained(backbone_model)  # Load the tokenizer for transformer model
-        self.pooling_method               = pooling_method
-        self.device                       = device
-        self.output_dim                   = output_dim                                     # Sentence Embedding Size
-        self.fc                           = nn.Linear(self.backbone_transformer_encoder.config.hidden_size,  
-                                                      self.output_dim )                    # BERT-base has 768 hidden size
+        self.backbone_transformer_encoder = AutoModel.from_pretrained(config["model"]["backbone_model_name"])      # Load the pretrained transformer model from the hugging face
+        self.tokenizer                    = AutoTokenizer.from_pretrained(config["model"]["backbone_model_name"])  # Load the tokenizer for transformer model
+        self.pooling_method               = config["model"]["pooling_method"]
+        self.output_dim                   = config["model"]["sentence_embedding_size"]                             # Sentence Embedding Size                                 
+        
+        # Output layers
+        self.fc                           = nn.Linear(self.backbone_transformer_encoder.config.hidden_size,  self.output_dim )                    # BERT-base has 768 hidden size
         self.activation                   = nn.GELU()                                      # GELU activation    
-        self.output_encoder_embedding     = output_encoder_embedding    
-        self.use_tokenizer                = use_tokenizer
         
 
     def mean_pooling_layer(self, 
@@ -39,17 +32,13 @@ class CustomSentenceTransformer(nn.Module):
 
         return embeddings_mean
     
-    def forward(self, input_text):
+    def forward(self, encoded_inputs):
 
-        if self.use_tokenizer: encoded_inputs       = self.tokenizer(input_text, padding=True, return_tensors="pt")           # Encode the input text
-        else: encoded_inputs       =  input_text
+        # if self.use_tokenizer: encoded_inputs       = self.tokenizer(input_text, padding=True, return_tensors="pt")           # Encode the input text
+        # else: encoded_inputs       =  input_text
 
         encoded_inputs       = {key: val.to(self.device) for key, val in encoded_inputs.items()}
         encoder_embeddings   = self.backbone_transformer_encoder(**encoded_inputs).last_hidden_state # Shape: [batch_size, sequence_length, hidden_dim]
-
-        # Output transformer embedding output for each tokens 
-        if self.output_encoder_embedding: 
-            return encoder_embeddings       # Shape: [batch_size, sequence_length, hidden_dim]
         
         # Apply mean pool across token axis
         sentence_embedded    = self.mean_pooling_layer(encoder_embeddings, encoded_inputs["attention_mask"]) # Shape: [batch_size, hidden_dim]
@@ -58,7 +47,7 @@ class CustomSentenceTransformer(nn.Module):
         sentence_embedded    = self.fc(sentence_embedded)            # Shape:[batch_size, output_dim]
         sentence_embedded    = self.activation(sentence_embedded)
 
-        return sentence_embedded
+        return sentence_embedded, encoder_embeddings
 
 
 
