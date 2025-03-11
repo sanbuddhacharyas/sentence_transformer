@@ -17,8 +17,9 @@ model:
     save_model_NER: ""
     sentence_embedding_size: 512
     n_classes_cls: 4
-    n_classes_ner: 9
     max_token_size: 128
+     n_classes_ner: 9
+    dropout_ner: 0.3
 
 data:
     dataset_path: "sentence-transformers/all-nli"

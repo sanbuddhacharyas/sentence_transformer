@@ -14,10 +14,10 @@ class MTL(nn.Module):
         
         super(MTL, self).__init__()
         
-        self.sentenceTransformer = CustomSentenceTransformer(config, device)
-        self.classifier_head     = ClassifierHead(config)
-        self.ner_head            = NerHead(config)
-        self.tokenizer           = self.sentenceTransformer.tokenizer
+        self.sentenceTransformer = CustomSentenceTransformer(config, device)  # Load the Sentence Transformer model
+        self.classifier_head     = ClassifierHead(config)                     # Load classifier head
+        self.ner_head            = NerHead(config)                            # Load NER Head
+        self.tokenizer           = self.sentenceTransformer.tokenizer         # BERT Tokenizer
 
         # load pre-trained model of encoder (BERT)
         if os.path.isfile(config["model"]["sentence_transformer_pretrained"]):
@@ -27,6 +27,6 @@ class MTL(nn.Module):
     def forward(self, input_text:List[str]):
         sentence_embedded, encoder_embedding = self.sentenceTransformer(input_text) # Output sentence embedding Output Shape: [batch_size, output_dim]
         output_cls = self.classifier_head(sentence_embedded)            # Classification head Output Shape: [batch_size, n_classes]
-        output_ner = self.ner_head(encoder_embedding)                   # NER head outputs classes per token
+        output_ner = self.ner_head(encoder_embedding)                   # NER head outputs classes per token Shape: [batch_size, seq_len, n_classes]
 
-        return output_cls, output_ner
+        return output_cls, output_ner       # Return both the output from Classification head and NER Head
