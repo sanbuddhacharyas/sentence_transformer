@@ -66,7 +66,7 @@ Following dataset from huggingface is used to train the models:<br>
 ```
 
 # Model Training 
-Each models has different code to train the model which is in the folder train.
+Each models has different code to train the model which is in the folder `train`.
 ```
     ├── train
     │   ├── train_classifier.py
@@ -176,5 +176,11 @@ python test.py --model_name 'NER' --pretrained_path 'weights/sentence_classifier
 
 **Sentence Classifier:**
 ```
-python test.py --model_name 'NER' --pretrained_path 'weights/sentence_classifier_8.pth' --n_classes 4 --batch_size 32
+python test.py --model_name 'classifier' --pretrained_path 'weights/sentence_classifier_8.pth' --n_classes 4 --batch_size 32
+```
+
+# Predict Models
+## Output Sentence Embedding and Check similarity
+```
+python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['A person on a horse jumps over a broken down airplane.', 'There are women showing affection.']"
 ```
