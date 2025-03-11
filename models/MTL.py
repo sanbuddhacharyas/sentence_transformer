@@ -9,11 +9,12 @@ from models.ner_head import NerHead
 
 class MTL(nn.Module):
     def __init__(self,
-                 config:dict) -> None:
+                 config:dict,
+                 device:str) -> None:
         
         super(MTL, self).__init__()
         
-        self.sentenceTransformer = CustomSentenceTransformer(config)
+        self.sentenceTransformer = CustomSentenceTransformer(config, device)
         self.classifier_head     = ClassifierHead(config)
         self.ner_head            = NerHead(config)
         self.tokenizer           = self.sentenceTransformer.tokenizer

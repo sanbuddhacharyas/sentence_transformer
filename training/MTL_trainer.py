@@ -27,12 +27,14 @@ def train_model(model, dataloader_cls, dataloader_ner, lr=0.00001, epochs=5, alp
             optimizer.zero_grad()
 
             # Forward pass
-            outputs_cls, _ = model(data_cls.to(device))
-            _, outputs_ner = model(data_ner.to(device))
+            outputs_cls, _ = model(data_cls)
+            _, outputs_ner = model(data_ner)
 
             # Calculate losses
-            loss_cls       = criterion_cls(outputs_cls, labels_cls)
-            loss_ner       = criterion_ner(outputs_ner, labels_ner)
+            loss_cls       = criterion_cls(outputs_cls, labels_cls.to(device))
+
+            # NER has shape of [batch_size, seq_len, seq_len] but  CrossEntropyLoss takes Shape: [batch_size, n_classes, seq_len]
+            loss_ner       = criterion_ner(outputs_ner.permute(0, 2, 1), labels_ner.to(device)) 
 
             # Weighted loss combination
             loss = alpha * loss_cls + (1 - alpha) * loss_ner
@@ -51,4 +53,4 @@ def train_model(model, dataloader_cls, dataloader_ner, lr=0.00001, epochs=5, alp
         acc_cls = correct_cls / total_samples_cls
         acc_ner = correct_ner / total_samples_ner
 
-        print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}, Accuracy A: {acc_cls:.4f}, Accuracy B: {acc_b:.4f}")
+        print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}, Accuracy A: {acc_cls:.4f}, Accuracy B: {acc_ner:.4f}")

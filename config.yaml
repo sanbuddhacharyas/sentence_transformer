@@ -6,15 +6,19 @@ training:
     batch_size: 32
     epochs: 20
     learning_rate: 0.00001
-    n_classes: 4
+    alpha: 0.5
 
 model:
     backbone_model_name: "google-bert/bert-base-uncased"
     pooling_method : "mean"
     sentence_transformer_pretrained: "../weights/sentence_transformer_5.pth"
     save_model_classifier: "../weights/sentence_classifier_9.pth" 
+    encoder_embedding_size: 768
     save_model_NER: ""
-    output_embedding: 512
+    sentence_embedding_size: 512
+    n_classes_cls: 4
+    n_classes_ner: 9
+    max_token_size: 128
 
 data:
     dataset_path: "sentence-transformers/all-nli"
