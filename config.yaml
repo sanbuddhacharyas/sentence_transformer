@@ -20,3 +20,10 @@ data:
     dataset_path: "sentence-transformers/all-nli"
     classification_dataset_path: 'fancyzhx/ag_news'
     ner_dataset_path: 'eriktks/conll2003'
+    conll2003:
+        ind2class: {0: 'O', 1: 'B-PER', 2: 'I-PER', 3: 'B-ORG', 4: 'I-ORG', 5: 'B-LOC', 6: 'I-LOC', 7: 'B-MISC', 8: 'I-MISC'}
+    ag_news:
+        ind2class: {0: 'World', 1: 'Sports', 2: 'Business', 3: 'Sci/Tech'}
+
+predict:
+    
