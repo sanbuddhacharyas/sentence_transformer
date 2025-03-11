@@ -13,15 +13,15 @@ class CustomSentenceTransformer(nn.Module):
                  output_encoder_embedding:bool=False,
                  use_tokenizer:bool=True) -> None:
         super(CustomSentenceTransformer, self).__init__()
-        self.backbone_transformer_encoder = AutoModel.from_pretrained(backbone_model)        # Load the pretrained transformer model from the hugging face
-        self.tokenizer                    = AutoTokenizer.from_pretrained(backbone_model)    # Load the tokenizer for transformer model
+        self.backbone_transformer_encoder = AutoModel.from_pretrained(backbone_model)      # Load the pretrained transformer model from the hugging face
+        self.tokenizer                    = AutoTokenizer.from_pretrained(backbone_model)  # Load the tokenizer for transformer model
         self.pooling_method               = pooling_method
         self.device                       = device
-        self.output_dim                   = output_dim
+        self.output_dim                   = output_dim                                     # Sentence Embedding Size
         self.fc                           = nn.Linear(self.backbone_transformer_encoder.config.hidden_size,  
-                                                      self.output_dim )                      # BERT-base has 768 hidden size
-        self.activation                   = nn.GELU()                                        # Activation function
-        self.output_encoder_embedding     = output_encoder_embedding
+                                                      self.output_dim )                    # BERT-base has 768 hidden size
+        self.activation                   = nn.GELU()                                      # GELU activation    
+        self.output_encoder_embedding     = output_encoder_embedding    
         self.use_tokenizer                = use_tokenizer
         
 
@@ -45,17 +45,17 @@ class CustomSentenceTransformer(nn.Module):
         else: encoded_inputs       =  input_text
 
         encoded_inputs       = {key: val.to(self.device) for key, val in encoded_inputs.items()}
-        encoder_embeddings   = self.backbone_transformer_encoder(**encoded_inputs).last_hidden_state       # Shape: [batch_size, sequence_length, hidden_dim]
+        encoder_embeddings   = self.backbone_transformer_encoder(**encoded_inputs).last_hidden_state # Shape: [batch_size, sequence_length, hidden_dim]
 
         # Output transformer embedding output for each tokens 
         if self.output_encoder_embedding: 
-            return encoder_embeddings            # Shape: [batch_size, sequence_length, hidden_dim]
+            return encoder_embeddings       # Shape: [batch_size, sequence_length, hidden_dim]
         
-        # Apply mean pool  
-        sentence_embedded    = self.mean_pooling_layer(encoder_embeddings, encoded_inputs["attention_mask"])
+        # Apply mean pool across token axis
+        sentence_embedded    = self.mean_pooling_layer(encoder_embeddings, encoded_inputs["attention_mask"]) # Shape: [batch_size, hidden_dim]
 
         # Linear layer to reduce embedding size
-        sentence_embedded    = self.fc(sentence_embedded)
+        sentence_embedded    = self.fc(sentence_embedded)            # Shape:[batch_size, output_dim]
         sentence_embedded    = self.activation(sentence_embedded)
 
         return sentence_embedded

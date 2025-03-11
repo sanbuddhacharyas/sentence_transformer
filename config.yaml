@@ -6,13 +6,13 @@ training:
     batch_size: 32
     epochs: 20
     learning_rate: 0.00001
-    n_classes: 9
+    n_classes: 4
 
 model:
     backbone_model_name: "google-bert/bert-base-uncased"
     pooling_method : "mean"
-    sentence_transformer_pretrained: "weights/sentence_transformer_3.pth"
-    save_model_classifier: "weights/sentence_classifier_19.pth" 
+    sentence_transformer_pretrained: "../weights/sentence_transformer_5.pth"
+    save_model_classifier: "../weights/sentence_classifier_9.pth" 
     save_model_NER: ""
     output_embedding: 512
 

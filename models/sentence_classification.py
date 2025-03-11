@@ -48,7 +48,7 @@ class SentenceClassifier(nn.Module):
         return output
     
     def forward(self, input_text:List[str]):
-        encoder_output = self.encoder(input_text)
-        classes_output = self.classifier(encoder_output)
+        encoder_output = self.encoder(input_text)        # Output sentence embedding Output Shape: [batch_size, output_dim]
+        classes_output = self.classifier(encoder_output) # Classification head Output Shape: [batch_size, n_classes]
 
         return classes_output
