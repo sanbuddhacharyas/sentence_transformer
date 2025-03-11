@@ -60,3 +60,16 @@ def calculate_all_metrics(y_truth:np.array, y_pred:np.array):
     print(f"Precision: {precision_score}")
     print(f"Recall: {recall_score}")
     print(f"F1: {F1_Score(precision_score, recall_score)}")
+
+def cosine_similarity(vec1, vec2):
+    # Dot product of the two vectors
+    dot_product = np.dot(vec1, vec2)
+    
+    # Magnitudes (norms) of the vectors
+    norm_vec1 = np.linalg.norm(vec1)
+    norm_vec2 = np.linalg.norm(vec2)
+    
+    # Cosine similarity formula
+    cos_sim = dot_product / (norm_vec1 * norm_vec2)
+    
+    return cos_sim
