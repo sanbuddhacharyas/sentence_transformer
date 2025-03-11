@@ -6,7 +6,8 @@ from transformers import AutoModel, AutoTokenizer
 class CustomSentenceTransformer(nn.Module):
     
     def __init__(self, 
-                 config) -> None:
+                 config,
+                 device) -> None:
         super(CustomSentenceTransformer, self).__init__()
         self.backbone_transformer_encoder = AutoModel.from_pretrained(config["model"]["backbone_model_name"])      # Load the pretrained transformer model from the hugging face
         self.tokenizer                    = AutoTokenizer.from_pretrained(config["model"]["backbone_model_name"])  # Load the tokenizer for transformer model
@@ -16,7 +17,7 @@ class CustomSentenceTransformer(nn.Module):
         # Output layers
         self.fc                           = nn.Linear(self.backbone_transformer_encoder.config.hidden_size,  self.output_dim )                    # BERT-base has 768 hidden size
         self.activation                   = nn.GELU()                                      # GELU activation    
-        
+        self.device                       = device
 
     def mean_pooling_layer(self, 
                      encoder_embeddings: torch.Tensor, 
