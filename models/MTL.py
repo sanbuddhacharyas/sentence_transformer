@@ -24,8 +24,8 @@ class MTL(nn.Module):
             self.sentenceTransformer.load_state_dict(torch.load(config["model"]["sentence_transformer_pretrained"]))
             print("Encoder Weight Loaded: ", config["model"]["sentence_transformer_pretrained"])
     
-    def forward(self, input_text:List[str]):
-        sentence_embedded, encoder_embedding = self.sentenceTransformer(input_text) # Output sentence embedding Output Shape: [batch_size, output_dim]
+    def forward(self, input_ids):
+        sentence_embedded, encoder_embedding = self.sentenceTransformer(input_ids) # Output sentence embedding Output Shape: [batch_size, output_dim]
         output_cls = self.classifier_head(sentence_embedded)            # Classification head Output Shape: [batch_size, n_classes]
         output_ner = self.ner_head(encoder_embedding)                   # NER head outputs classes per token Shape: [batch_size, seq_len, n_classes]
 
