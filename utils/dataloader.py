@@ -56,11 +56,17 @@ if __name__ == '__main__':
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     
     
-    train_dataset, test_dataset = load_huggingFace_dataset(dataset_name, dataset_type='NER')
+    train_dataset, test_dataset = load_huggingFace_dataset(dataset_name, dataset_type='classifier')
     
-    train_dataset = train_dataset.map(preprocess_data, batched=True, fn_kwargs={"tokenizer": tokenizer}).remove_columns(["id", "tokens", "pos_tags", "chunk_tags", "ner_tags","token_type_ids"])
+    label_classes = train_dataset.features['ner_tags'].feature.names
+
+    # Print label index with class names
+    label_mapping = {i: label for i, label in enumerate(label_classes)}
+    print(label_mapping)
+
+    # train_dataset = train_dataset.map(preprocess_data, batched=True, fn_kwargs={"tokenizer": tokenizer}).remove_columns(["id", "tokens", "pos_tags", "chunk_tags", "ner_tags","token_type_ids"])
     
-    print(train_dataset[0]['labels'])
+    # print(train_dataset[0]['labels'])
     # tokenized_inputs = tokenizer(test_dataset[0]["tokens"], truncation=True, padding="max_length", is_split_into_words=True)
     # output_token                = tokenize_and_align_labels(train_dataset[0], tokenizer)
    
