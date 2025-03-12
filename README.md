@@ -40,7 +40,7 @@ Use python script`predict.py` to outputs sentence embedding of two input sentenc
 
 For Example:
 
-```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['A person on a horse jumps over a broken down airplane.', 'There are women showing affection.']"```
+```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['Fetch is 100% safe to use. All you are doing with Fetch is getting rewarded for the shopping you are already doing, no credit card is needed, just sign up with a phone number and you’re good to start earning free gift cards!', 'Fetch is a mobile application that allows you to snap your grocery, shopping & restaurant receipts and lets you earn gift cards and rewards for your purchases!']"```
 
 
 ## Configuration
