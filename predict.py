@@ -1,8 +1,10 @@
 import torch
 import argparse
+import numpy as np
 
 from utils.metrics import cosine_similarity
 from utils.config_parser import load_config
+from utils.plot import pca_visualization
 from models.sentence_transformer import CustomSentenceTransformer
 
 
@@ -51,6 +53,7 @@ if __name__ == '__main__':
         print("Embeddings  2nd sentnece: ", outputs[1])
         print("Similariy: ", cosine_similarity(outputs[0], outputs[1])) # Find the cosine similarity between the two embeddings
 
+        pca_visualization(np.array(outputs), sequences)
     else:
         print("Enter Correct Model!!!")
 
