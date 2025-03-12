@@ -30,6 +30,15 @@ OR build from docker file
 docker build -t sentence-transformer .
 ```
 
+## Run Docker Environment
+```docker run -it sangamman/fetch-sentence-transformer:latest /bin/sh```
+
+To generate the sentence embedding inside tthe docker environment use the following command:
+```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['Fetch is 100% safe to use. All you are doing with Fetch is getting rewarded for the shopping you are already doing, no credit card is needed, just sign up with a phone number and you’re good to start earning free gift cards.', 'Fetch is a mobile application that allows you to snap your grocery, shopping & restaurant receipts and lets you earn gift cards and rewards for your purchases.']"```
+
+To train the MTL model use the following command inside the docker environment:
+```python train.py```
+
 # Predict Sentence Embedding:
 Create a folder name `weight` and download the pre-trained sentence transformer model.
 ```https://drive.google.com/file/d/1MYjFvMCfXl-GMzpMdNEhWVGTHI4UWbPh/view?usp=sharing```
@@ -40,7 +49,7 @@ Use python script`predict.py` to outputs sentence embedding of two input sentenc
 
 For Example:
 
-```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['Fetch is 100% safe to use. All you are doing with Fetch is getting rewarded for the shopping you are already doing, no credit card is needed, just sign up with a phone number and you’re good to start earning free gift cards!', 'Fetch is a mobile application that allows you to snap your grocery, shopping & restaurant receipts and lets you earn gift cards and rewards for your purchases!']"```
+```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['Fetch is 100% safe to use. All you are doing with Fetch is getting rewarded for the shopping you are already doing, no credit card is needed, just sign up with a phone number and you’re good to start earning free gift cards.', 'Fetch is a mobile application that allows you to snap your grocery, shopping & restaurant receipts and lets you earn gift cards and rewards for your purchases.']"```
 
 
 ## Configuration
