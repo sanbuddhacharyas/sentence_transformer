@@ -22,8 +22,9 @@ if __name__ == '__main__':
     dataloader_train_ner, dataloader_test_ner  =  DataLoaderNER(config)
 
     train_model(MTL_model, 
-                dataloader_train_cls, 
-                dataloader_train_ner, 
+                (dataloader_train_cls, dataloader_test_cls), 
+                (dataloader_train_ner, dataloader_test_ner), 
                 config['training']['learning_rate'],
                 config['training']['epochs'],
-                config['training']['alpha'])
+                config['training']['alpha'],
+                config['training']['batch_size'])

@@ -7,8 +7,8 @@ from torch.utils.data import DataLoader, Dataset
 import torch
 def DataLoaderNER(config):
      # Load datasets
-    train_dataset, test_dataset  =  dummyNERGenerator(data_size=512, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_ner']), \
-                                    dummyNERGenerator(data_size=128,  seq_len=config['model']['max_token_size'],  num_classes=config['model']['n_classes_ner'])
+    train_dataset, test_dataset  =  dummyNERGenerator(data_size=64, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_ner']), \
+                                    dummyNERGenerator(data_size=8,  seq_len=config['model']['max_token_size'],  num_classes=config['model']['n_classes_ner'])
     
     dataloader_train             = DataLoader(train_dataset, batch_size=config['training']['batch_size'], shuffle=True,  num_workers=0)
     dataloader_test              = DataLoader(test_dataset,  batch_size=config['training']['batch_size'], shuffle=False, num_workers=0)
