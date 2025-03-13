@@ -40,7 +40,8 @@ Generate PCA Sentence Visualization (Saved as embedding_space.png):
 
 ```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['A person on a horse jumps over a broken down airplane.', 'A person is outdoors, on a horse.', 'There are women showing affection.', 'The family is outside.', 'A skier slides along a metal rail.', 'A skier is near the rail.']"```
 
-To train the MTL model use the following command inside the docker environment:
+To **train the MTL model** use the following command inside the docker environment:
+
 ```python train.py```
 
 # Predict Sentence Embedding:
