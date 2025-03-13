@@ -27,7 +27,7 @@ docker pull sangamman/fetch-sentence-transformer:latest
 ```
 OR build from docker file
 ```
-docker build -t sentence-transformer .
+docker build -t fetch-sentence-transformer .
 ```
 
 ## Run Docker Environment
