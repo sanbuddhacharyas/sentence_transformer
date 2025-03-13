@@ -9,9 +9,8 @@ This repository contains code to train, test and predict the sentence transforme
 
 ## Installation
 ### 1. Create a conda environment
-```
-conda create -n sentenceTransformer python=3.10
-conda activate sentenceTransformer 
+```conda create -n sentenceTransformer python=3.10
+   conda activate sentenceTransformer 
 ```
 ### 2. Install Dependencis
 
@@ -34,9 +33,11 @@ docker build -t fetch-sentence-transformer .
 ```docker run -it sangamman/fetch-sentence-transformer:latest /bin/sh```
 
 To generate the sentence embedding inside tthe docker environment use the following command:
+
 ```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['Fetch is 100% safe to use. All you are doing with Fetch is getting rewarded for the shopping you are already doing, no credit card is needed, just sign up with a phone number and you’re good to start earning free gift cards.', 'Fetch is a mobile application that allows you to snap your grocery, shopping & restaurant receipts and lets you earn gift cards and rewards for your purchases.']"```
 
-Generate PCA Sentence Visualization (Saved as embedding_):
+Generate PCA Sentence Visualization (Saved as embedding_space.png):
+
 ```python predict.py --model_name 'embedding' --pretrained_path 'weights/sentence_transformer_5.pth' --input "['A person on a horse jumps over a broken down airplane.', 'A person is outdoors, on a horse.', 'There are women showing affection.', 'The family is outside.', 'A skier slides along a metal rail.', 'A skier is near the rail.']"```
 
 To train the MTL model use the following command inside the docker environment:

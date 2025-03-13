@@ -6,8 +6,8 @@ from utils.metrics import metric_evaluation
 
 # Training loop
 def train_model(model, dataloader_cls, dataloader_ner, lr=0.00001, epochs=5, alpha=0.5, batch_size=8):
-    criterion_cls = nn.CrossEntropyLoss()
-    criterion_ner = nn.CrossEntropyLoss()
+    criterion_cls = nn.CrossEntropyLoss(ignore_index=-100)
+    criterion_ner = nn.CrossEntropyLoss(ignore_index=-100)
     optimizer     = optim.Adam(model.parameters(), lr=lr)
 
     device      = 'cuda' if torch.cuda.is_available() else 'cpu'
