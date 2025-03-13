@@ -3,3 +3,4 @@ transformers==4.49.0
 datasets==3.3.2
 scikit-learn==1.6.1
 wandb==0.19.8
+matplotlib==3.10.1

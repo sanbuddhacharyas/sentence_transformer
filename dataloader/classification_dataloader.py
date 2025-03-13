@@ -6,8 +6,8 @@ from torch.utils.data import DataLoader, Dataset
 
 def DataLoaderClassifier(config):
      # Load datasets
-    train_dataset, test_dataset  = dummyDataloaderGenerator(data_size=512, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_cls']), \
-                                   dummyDataloaderGenerator(data_size=128, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_cls'])
+    train_dataset, test_dataset  = dummyDataloaderGenerator(data_size=64, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_cls']), \
+                                   dummyDataloaderGenerator(data_size=8, seq_len=config['model']['max_token_size'], num_classes=config['model']['n_classes_cls'])
     
     dataloader_train            = DataLoader(train_dataset, batch_size=config['training']['batch_size'], shuffle=True,  num_workers=0)
     dataloader_test             = DataLoader(test_dataset,  batch_size=config['training']['batch_size'], shuffle=False, num_workers=0)
